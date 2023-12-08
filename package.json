@@ -1,0 +1,44 @@
+{
+  "name": "webid-pubkey-credentials-module",
+  "version": "1.0.0",
+  "description": "A Solid Community Server module to provide webid-pubkey credentials",
+  "repository": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/webid-pubkey-credentials-module",
+  "lsd:components": "dist/components/components.jsonld",
+  "lsd:contexts": {
+    "https://linkedsoftwaredependencies.org/bundles/npm/webid-pubkey-credentials-module/^1.0.0/components/context.jsonld": "dist/components/context.jsonld"
+  },
+  "lsd:importPaths": {
+    "https://linkedsoftwaredependencies.org/bundles/npm/webid-pubkey-credentials-module/^1.0.0/components/": "dist/components/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/webid-pubkey-credentials-module/^1.0.0/config/": "config/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/webid-pubkey-credentials-module/^1.0.0/dist/": "dist/"
+  },
+  "scripts": {
+    "start": "community-solid-server -l info -c @css:config/file.json credentials.json -f .data -m .",
+    "build": "npm run build:ts && npm run build:components",
+    "build:components": "componentsjs-generator -s src -c dist/components -i .componentsignore -r webid-pubkey-credentials",
+    "build:ts": "tsc",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "files": [
+    "dist",
+    "config"
+  ],
+  "dependencies": {
+    "@solid/community-server": "^7.0.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.2",
+    "@types/jest": "^29.5.5",
+    "@types/node-fetch": "^2.6.2",
+    "componentsjs-generator": "^3.1.0",
+    "jest": "^29.1.1",
+    "node-fetch": "^2.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
+  },
+  "license": "MIT"
+}
