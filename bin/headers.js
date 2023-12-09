@@ -16,7 +16,7 @@ if (method === 'GET' || method === 'HEAD' || method === 'DELETE') {
     do_get(key,webid,method,url);
 }
 else {
-    do_post(key,webid,method,url,file,path);
+    do_post(key,webid,method,url,path);
 }
 
 async function do_get(keyPath,webid,method,url,filePath) {
@@ -43,7 +43,6 @@ async function do_get(keyPath,webid,method,url,filePath) {
 
     console.log(headers);
 }
-
 
 async function do_post(keyPath,webid,method,url,filePath) {
     const key    = fs.readFileSync(keyPath, { encoding: 'utf8'} );

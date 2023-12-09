@@ -1,0 +1,30 @@
+{ 
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "id": "urn:uuid:239FD510-03F4-4B56-B3A0-0D3B92F3826D",
+    "type": "Announce",
+    "actor": {
+       "id": "https://fairfield.org/about#us",
+       "inbox": "https://fairfield.org/inbox",
+       "name": "Fairfield City Repository",
+       "type": "Organization"
+    },
+    "origin": {
+       "id": "https://darwin.fairfield.org/system",
+       "name": "Fairfield City Darwin System",
+       "type": "Application"
+    },
+    "context":"https://acme.org/artifacts/alice/five_steps_to_success.html",
+    "object": {
+       "id": "urn:uuid:CF21A499-1BDD-4B59-984A-FC94CF6FBA86",
+       "type": "Relationship",
+       "subject":"https://acme.org/artifacts/alice/five_steps_to_success.html",
+       "relationship":"https://www.iana.org/memento",
+       "object":"https://darwin.fairfield.org/objects/317831-13210"
+    },
+    "target": {     
+       "id": "https://acme.org/profile/card#us",
+       "inbox": "https://acme.org/inbox/",
+       "name": "ACME Research Institute ",
+       "type": "Organization"
+    }
+  }
