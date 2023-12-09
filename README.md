@@ -21,7 +21,56 @@ The signature string is constructed using the values of the HTTP headers defined
 ## Configuration
 
 See: `credentials.json` for an example configuration file. The `urlMatch` limits resources
-for which this module is applicable.
+for which this module is applicable. In the example, the  `/inbox/` resources uses the
+webid-pubkey-credentials method.
+
+## Example
+
+### Create a private/public key pair
+
+```
+# .test is an output directory
+node bin/generate_keys.js .test
+```
+
+### Write the public key in your webid profile
+
+```
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+
+<>
+    a foaf:PersonalProfileDocument;
+    foaf:maker <http://localhost:3000/test/profile/card#me>;
+    foaf:primaryTopic <http://localhost:3000/test/profile/card#me>.
+
+<http://localhost:3000/test/profile/card#me>
+    a foaf:Person;
+    solid:oidcIssuer <http://localhost:3000/>;
+    <https://w3id.org/security#publicKey> <http://localhost:3000/test/profile/card#main-key> .
+
+<http://localhost:3000/test/profile/card#main-key> <https://w3id.org/security#publicKeyPem> '''-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp6y7IELZ63Up0bb+mxby
+1wILqb5QtuUvALUQxk41dEJloj6Krrvf7s+77B0shNKplnwlvNXCnTexdLBjbs3f
+7GELp7h4Dp46bIutUPfBizf71VyqO8eFX94Hur3uaPSr2uLpu1IKXpX/SIwXjcqg
+7s+1b2LrOLla344TcnHokoDN3mhUznif0GOcQxksU1UKcDKF3aM2ug6h8xSLh1pv
+wFCiZyXi7HHMxaJD1b5CC7a8+kMWDsNDjDYMKNl4jk9HTNrcvzgUDHbNzi9NdUis
+7qdZFBsjs0LwWv+J6Kh4/p6YpDndefQupNsI7ziZR6r+fpHPJwhc6wpjFLetvbOh
+4wIDAQAB
+-----END PUBLIC KEY-----
+''' .
+```
+
+### Provide access the the webid
+
+Provide in the ACL/ACP configuration of the Pod access for the webid containing
+the public keys.
+
+### Execute a request against the /inbox/
+
+```
+./demo.sh
+```
 
 ## Running the server
 

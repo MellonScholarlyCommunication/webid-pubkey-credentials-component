@@ -80,15 +80,15 @@ export class WebidPubkeyCredentialsExtractor extends CredentialsExtractor {
     }
 
     const sig                    = this.parseSignature(signature);
-    const keyId  : string        = sig['keyId'];
+    const webId  : string        = sig['webId'];
     const signature_str : string = sig['signature'];
 
-    if (!keyId || ! signature_str) {
+    if (!webId || ! signature_str) {
         this.logger.debug('No keyId or signature in signature header');
         return {};
     }
 
-    this.logger.info(`keyId: ${keyId} ; signature: ${signature_str}`);
+    this.logger.info(`Parsed: webId: ${webId} ; signature: ${signature_str}`);
 
     let sigTest;
 
@@ -108,13 +108,14 @@ export class WebidPubkeyCredentialsExtractor extends CredentialsExtractor {
 
     this.logger.debug(`sigTest: ${sigTest}`);
 
-    const publicKey = await this.getPublicKeyPem(keyId);
+    const publicKey = await this.getPublicKeyPem(webId);
 
     if (!publicKey) {
+        this.logger.info(`No public key for ${webId}`);
         return {}
     }
 
-    this.logger.debug(`publicKey (remote): ${publicKey}`);
+    this.logger.debug(`PublicKey (remote): ${publicKey}`);
 
     const res = verify(
         'SHA256',
@@ -124,12 +125,12 @@ export class WebidPubkeyCredentialsExtractor extends CredentialsExtractor {
     );
 
     if (res) {
-        this.logger.info(`verify: success`);
-        const credentials: Credentials = { agent: { webId: keyId } };
+        this.logger.info(`Verify: success`);
+        const credentials: Credentials = { agent: { webId: webId } };
         return credentials;
     }
     else {
-        this.logger.info(`verify: failed`);
+        this.logger.info(`Verify: failed`);
         return {};
     }
   }
@@ -143,7 +144,7 @@ export class WebidPubkeyCredentialsExtractor extends CredentialsExtractor {
 
     const signature_parsed : any = sig_str.split(",").map( (pair) => {
         const parts = pair.split("=").map( (value) => {
-            return value.replace(/\A"/,'').replace(/"\z/,'')
+            return value.replace(/^"/,'').replace(/"$/,'')
         });
         return parts;
     });
@@ -155,45 +156,52 @@ export class WebidPubkeyCredentialsExtractor extends CredentialsExtractor {
 
   private async getPublicKeyPem(webId: string) : Promise<string | undefined> {
     this.logger.info(`fetching: ${webId}`);
-    const representation = await fetchDataset(webId);
 
-    const triples : Quad[] = [];
-    
-    for await (const data of representation.data) {
-        const triple = data as Quad;
-        triples.push(triple);
+    try {
+        const representation = await fetchDataset(webId);
+
+        const triples : Quad[] = [];
+        
+        for await (const data of representation.data) {
+            const triple = data as Quad;
+            triples.push(triple);
+        }
+
+        const pubKeyTriple = triples.find( (triple) => {
+            if (triple.subject.equals(namedNode(webId)) &&
+                triple.predicate.equals(namedNode(SEC_PUBKEY))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+
+        if (! pubKeyTriple) {
+            this.logger.info(`No ${SEC_PUBKEY} in ${webId}`);
+            return undefined;
+        }
+
+        const pubKeyPemTriple = triples.find( (triple) => {
+            if (triple.subject.equals(pubKeyTriple.object) &&
+                triple.predicate.equals(namedNode(SEC_PUBKEY_PEM))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+
+        if (! pubKeyPemTriple) {
+            this.logger.info(`No ${SEC_PUBKEY_PEM} for ${pubKeyTriple.object.value}`);
+            return undefined;
+        }
+
+        return pubKeyPemTriple.object.value;
     }
-
-    const pubKeyTriple = triples.find( (triple) => {
-        if (triple.subject.equals(namedNode(webId)) &&
-            triple.predicate.equals(namedNode(SEC_PUBKEY))) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    });
-
-    if (! pubKeyTriple) {
-        this.logger.info(`No ${SEC_PUBKEY} in ${webId}`);
+    catch (e) {
+        this.logger.info(`Failed : ${e}`);
         return undefined;
     }
-
-    const pubKeyPemTriple = triples.find( (triple) => {
-        if (triple.subject.equals(pubKeyTriple.object) &&
-            triple.predicate.equals(namedNode(SEC_PUBKEY_PEM))) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    });
-
-    if (! pubKeyPemTriple) {
-        this.logger.info(`No ${SEC_PUBKEY_PEM} for ${pubKeyTriple.object.value}`);
-        return undefined;
-    }
-
-    return pubKeyPemTriple.object.value;
   }
 }
