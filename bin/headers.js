@@ -56,7 +56,7 @@ async function do_post(keyPath,webid,method,url,filePath) {
 
     const shasum = crypto.createHash("SHA256"); 
     shasum.update(filedata,'utf8');
-    const digest = shasum.digest('base64url');
+    const digest = `sha256=` + shasum.digest('base64url');
 
     const sigTest =
     "(request-target): " + method + " " + path + "\n" +

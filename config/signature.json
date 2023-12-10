@@ -1,0 +1,10 @@
+{
+    "@context": "https://linkedsoftwaredependencies.org/bundles/npm/webid-pubkey-credentials-module/^1.0.0/components/context.jsonld",
+    "@graph": [
+      {
+        "comment": "Converts signature headers into RDF metadata.",
+        "@id": "urn:solid-server:default:SignatureParser",
+        "@type": "SignatureParser"
+      }
+    ]
+}
