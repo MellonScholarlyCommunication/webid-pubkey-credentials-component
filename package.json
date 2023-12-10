@@ -16,7 +16,7 @@
     "https://linkedsoftwaredependencies.org/bundles/npm/webid-pubkey-credentials-module/^1.0.0/dist/": "dist/"
   },
   "scripts": {
-    "start": "community-solid-server -l info -c @css:config/file.json web-pubkey-credentials.json -f .data -m .",
+    "start": "community-solid-server -l info -c webid-pubkey.json -f .data -m .",
     "build": "npm run build:ts && npm run build:components",
     "build:components": "componentsjs-generator -s src -c dist/components -i .componentsignore -r webid-pubkey-credentials",
     "build:ts": "tsc",

@@ -1,11 +1,8 @@
 import {
     getLoggerFor,
-    type DataAccessor,
-    FileDataAccessor,
-    FileIdentifierMapper,
+    PassthroughDataAccessor,
     ResourceIdentifier,
     RepresentationMetadata,
-    createVocabulary,
     UnsupportedMediaTypeHttpError,
     Guarded,
     guardedStreamFrom
@@ -14,12 +11,8 @@ import type { Readable } from 'node:stream';
 import crypto from 'node:crypto';
 import { HH } from '../../http/input/metadata/Vocabularies';
 
-export class DigestFileDataAccessor extends FileDataAccessor implements DataAccessor {
+export class DigestFileDataAccessor extends PassthroughDataAccessor {
     protected readonly logger = getLoggerFor(this);
-
-    public constructor(resourceMapper: FileIdentifierMapper) {
-        super(resourceMapper);
-    }
 
     public async writeDocument(identifier: ResourceIdentifier, data: Guarded<Readable>, metadata: RepresentationMetadata):
     Promise<void> {

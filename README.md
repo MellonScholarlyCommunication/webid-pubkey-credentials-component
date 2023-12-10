@@ -20,9 +20,7 @@ The signature string is constructed using the values of the HTTP headers defined
 
 ## Configuration
 
-See: `credentials.json` for an example configuration file. The `urlMatch` limits resources
-for which this module is applicable. In the example, the  `/inbox/` resources uses the
-webid-pubkey-credentials method.
+See: `config/ldp/authentication/webid-pubkey.json` for an example configuration file. The `urlMatch` limits resources for which this module is applicable. In the example, the  `/inbox/` resources uses the webid-pubkey-credentials method.
 
 ## Example
 
