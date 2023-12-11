@@ -8,6 +8,8 @@ CONTENT_TYPE="application/ld+json"
 
 HEADERS=$(node bin/headers.js ${KEY} ${WEBID} POST ${URL} ${FILE})
 
-CMD="curl -s ${HEADERS} -H 'Content-Type: ${CONTENT_TYPE}' --data-binary '@${FILE}' ${URL}"
+LENGTH=$(wc -c < ${FILE})
+
+CMD="curl -s ${HEADERS} -H 'Content-Length: ${LENGTH}' -H 'Content-Type: ${CONTENT_TYPE}' --data-binary '@${FILE}' ${URL}"
 
 eval $CMD
