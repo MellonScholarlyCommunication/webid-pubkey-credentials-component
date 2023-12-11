@@ -5,7 +5,8 @@ import {
     RepresentationMetadata,
     UnsupportedMediaTypeHttpError,
     Guarded,
-    guardedStreamFrom
+    guardedStreamFrom,
+    SOLID_META
 } from '@solid/community-server';
 import type { Readable } from 'node:stream';
 import crypto from 'node:crypto';
@@ -18,7 +19,7 @@ export class DigestFileDataAccessor extends PassthroughDataAccessor {
     Promise<void> {
         let clone = data;
 
-        const digest = metadata.get(HH.terms.digest);
+        const digest = metadata.get(HH.terms.digest,SOLID_META.terms.ResponseMetadata);
         if (digest && digest.value.startsWith('sha256=')) {
             const digest_value = digest.value.replace(/^sha256=/,'');
             this.logger.debug(`digest (header): ${digest_value}`);

@@ -5,20 +5,10 @@
     ],
     "@graph": [
       {
-        "comment": "Remove the digest header from the RDF metadata.",
+        "comment": "Checks the digest header against the data.",
         "@id": "urn:solid-server:default:DigestFileDataAccessor",
-        "@type": "FilterMetadataDataAccessor",
-        "accessor": { 
-            "comment": "Checks the digest header against the data.",
-            "@type": "DigestFileDataAccessor",
-            "accessor": { "@id": "urn:solid-server:default:FileDataAccessor" }
-        },
-        "filters": [
-            {
-              "@type": "FilterPattern",
-              "predicate": "http://www.w3.org/2011/http-headers#digest"
-            }
-        ]
+        "@type": "DigestFileDataAccessor",
+        "accessor": { "@id": "urn:solid-server:default:FileDataAccessor" }
       }
     ]
 }

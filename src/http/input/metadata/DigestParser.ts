@@ -3,7 +3,8 @@ import {
     type HttpRequest,
     type RepresentationMetadata,
     MetadataParser,
-    BadRequestHttpError
+    BadRequestHttpError,
+    SOLID_META
 } from '@solid/community-server';
 import { HH } from './Vocabularies';
 
@@ -21,7 +22,9 @@ export class DigestParser extends MetadataParser {
         throw new BadRequestHttpError('Request has multiple Digest headers');
       }
       this.logger.debug(`Request Digest is '${digest}'.`);
-      input.metadata.set(HH.terms.digest,digest);
+      // Put the data in the SOLID_META.terms.ResponseMetadata so that it
+      // will be cleaned automatically after use...
+      input.metadata.set(HH.terms.digest,digest,SOLID_META.terms.ResponseMetadata);
     }
   }
 }
