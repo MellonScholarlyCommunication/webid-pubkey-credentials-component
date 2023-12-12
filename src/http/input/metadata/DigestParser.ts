@@ -22,9 +22,7 @@ export class DigestParser extends MetadataParser {
         throw new BadRequestHttpError('Request has multiple Digest headers');
       }
       this.logger.debug(`Request Digest is '${digest}'.`);
-      // Put the data in the SOLID_META.terms.ResponseMetadata so that it
-      // will be cleaned automatically after use...
-      input.metadata.set(HH.terms.digest,digest,SOLID_META.terms.ResponseMetadata);
+      input.metadata.set(HH.terms.digest,digest);
     }
   }
 }

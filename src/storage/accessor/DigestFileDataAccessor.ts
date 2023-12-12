@@ -19,7 +19,8 @@ export class DigestFileDataAccessor extends PassthroughDataAccessor {
     Promise<void> {
         let clone = data;
 
-        const digest = metadata.get(HH.terms.digest,SOLID_META.terms.ResponseMetadata);
+        const digest = metadata.get(HH.terms.digest);
+        
         if (digest && digest.value.startsWith('sha256=')) {
             const digest_value = digest.value.replace(/^sha256=/,'');
             this.logger.debug(`digest (header): ${digest_value}`);
@@ -28,13 +29,16 @@ export class DigestFileDataAccessor extends PassthroughDataAccessor {
 
             const shasum = crypto.createHash("SHA256"); 
             shasum.update(buffer);
-            const digest_calc = shasum.digest('base64url');
+            const digest_calc = shasum.digest('hex');
 
             this.logger.debug(`digest (data): ${digest_calc}`);
 
             if (digest_value !== digest_calc) {
                 this.logger.info(`digest header ${digest_value} not equal to stored ${digest_calc}`);
                 throw new UnsupportedMediaTypeHttpError('Digest doesn\'t match stored content.');
+            }
+            else {
+                this.logger.info(`digest header success`);
             }
 
             clone = guardedStreamFrom(buffer);
