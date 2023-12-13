@@ -29,7 +29,7 @@ export class DigestFileDataAccessor extends PassthroughDataAccessor {
 
             const shasum = crypto.createHash("SHA256"); 
             shasum.update(buffer);
-            const digest_calc = shasum.digest('hex');
+            const digest_calc = shasum.digest('base64');
 
             this.logger.debug(`digest (data): ${digest_calc}`);
 
