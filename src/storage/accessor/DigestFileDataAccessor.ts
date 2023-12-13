@@ -20,7 +20,7 @@ export class DigestFileDataAccessor extends PassthroughDataAccessor {
         let clone = data;
 
         const digest = metadata.get(HH.terms.digest);
-        
+
         if (digest && digest.value.startsWith('sha256=')) {
             const digest_value = digest.value.replace(/^sha256=/,'');
             this.logger.debug(`digest (header): ${digest_value}`);
@@ -40,6 +40,8 @@ export class DigestFileDataAccessor extends PassthroughDataAccessor {
             else {
                 this.logger.info(`digest header success`);
             }
+
+            metadata.removeAll(HH.terms.digest);
 
             clone = guardedStreamFrom(buffer);
         }
