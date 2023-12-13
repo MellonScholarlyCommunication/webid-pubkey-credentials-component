@@ -1,7 +1,7 @@
 {
   "name": "webid-pubkey-credentials-module",
   "version": "1.0.0",
-  "description": "A Solid Community Server module to provide webid-pubkey credentials",
+  "description": "A Solid Community Server module to provide Mastodon like webid-pubkey credentials",
   "repository": "git@github.com:MellonScholarlyCommunication/webid-pubkey-credentials-component.git",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
