@@ -34,7 +34,7 @@ async function do_get(keyPath,webid,method,url,filePath) {
     "date: " + date + "\n";
 
     const signature = await crypto.sign('SHA256', Buffer.from(sigTest), key);
-    const signature_b64 = signature.toString('base64url');
+    const signature_b64 = signature.toString('base64');
 
     const headers =
         `-H 'Host: ${host}' ` + 
@@ -65,7 +65,7 @@ async function do_post(keyPath,webid,method,url,filePath) {
     "digest: " + digest + "\n";
 
     const signature = await crypto.sign('SHA256', Buffer.from(sigTest), key);
-    const signature_b64 = signature.toString('base64url');
+    const signature_b64 = signature.toString('base64');
 
     const headers =
         `-H 'Host: ${host}' ` + 
