@@ -29,7 +29,7 @@ async function do_get(keyPath,webid,method,url,filePath) {
     const date   = new Date().toUTCString();
 
     const sigTest =
-    "(request-target): " + method + " " + path + "\n" +
+    "(request-target): " + method.toLowerCase() + " " + path + "\n" +
     "host: " + host + "\n" +
     "date: " + date + "\n";
 
@@ -59,7 +59,7 @@ async function do_post(keyPath,webid,method,url,filePath) {
     const digest = `sha256=` + shasum.digest('base64');
 
     const sigTest =
-    "(request-target): " + method + " " + path + "\n" +
+    "(request-target): " + method.toLowerCase() + " " + path + "\n" +
     "host: " + host + "\n" +
     "date: " + date + "\n" + 
     "digest: " + digest + "\n";

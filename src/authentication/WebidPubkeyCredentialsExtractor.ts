@@ -94,14 +94,14 @@ export class WebidPubkeyCredentialsExtractor extends CredentialsExtractor {
 
     if (method?.match(/^(POST|PUT|PATCH)$/)) {
         sigTest = 
-            "(request-target): " + method + " " + url + "\n" +
+            "(request-target): " + method.toLowerCase() + " " + url + "\n" +
             "host: " + host + "\n" +
             "date: " + date + "\n" +
             "digest: " + digest + "\n";
     }
     else {
         sigTest = 
-            "(request-target): " + method + " " + url + "\n" +
+            "(request-target): " + method?.toLowerCase() + " " + url + "\n" +
             "host: " + host + "\n" +
             "date: " + date + "\n";
     }
